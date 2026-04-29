@@ -29,7 +29,9 @@
 .\objects\oled.o: .\Library\stm32f10x_wwdg.h
 .\objects\oled.o: .\Library\misc.h
 .\objects\oled.o: Hardware\OLED.h
+.\objects\oled.o: Hardware\OLED_Config.h
 .\objects\oled.o: Hardware\OLED_Data.h
+.\objects\oled.o: Hardware\OLED_Port.h
 .\objects\oled.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\string.h
 .\objects\oled.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\math.h
 .\objects\oled.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stdio.h

@@ -689,6 +689,21 @@
               <FilePath>.\Hardware\OLED.h</FilePath>
             </File>
             <File>
+              <FileName>OLED_Config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\OLED_Config.h</FilePath>
+            </File>
+            <File>
+              <FileName>OLED_Port.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\OLED_Port.h</FilePath>
+            </File>
+            <File>
+              <FileName>OLED_Port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\OLED_Port.c</FilePath>
+            </File>
+            <File>
               <FileName>OLED_Data.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Hardware\OLED_Data.h</FilePath>

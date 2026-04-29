@@ -28,6 +28,7 @@
 ".\objects\main.o"
 ".\objects\stm32f10x_it.o"
 ".\objects\oled.o"
+".\objects\oled_port.o"
 ".\objects\oled_data.o"
 --strict --scatter ".\Objects\Project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
