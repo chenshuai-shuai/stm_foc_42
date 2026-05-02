@@ -17,7 +17,7 @@ static THD_FUNCTION(ControlThread, arg) {
   while (true) {
     appCommandGetSnapshot(&command_snapshot);
     appFastLoopStep(&command_snapshot.value);
-    chThdSleepMilliseconds(10);
+    chThdSleepMilliseconds(1);
     appRuntimeIncrementControlTicks();
   }
 }

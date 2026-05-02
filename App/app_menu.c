@@ -11,7 +11,9 @@ typedef enum {
 typedef enum {
   APP_MENU_VALUE_STATIC = 0,
   APP_MENU_VALUE_RUN_STATE,
-  APP_MENU_VALUE_MON_ANGLE,
+  APP_MENU_VALUE_MON_MECH_ANGLE,
+  APP_MENU_VALUE_MON_ELEC_ANGLE,
+  APP_MENU_VALUE_MON_VBUS,
   APP_MENU_VALUE_MON_TURN,
   APP_MENU_VALUE_MON_RAW
 } app_menu_value_id_t;
@@ -49,54 +51,55 @@ static const app_menu_page_t g_page_display;
 static const app_menu_page_t g_page_comm;
 
 static const app_menu_item_t g_items_root[] = {
-  {"Control", "", &g_page_control, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
-  {"Monitor", "", &g_page_monitor, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
-  {"System", "", &g_page_system, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
-  {"Debug", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Control", "", &g_page_control, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Monitor", "", &g_page_monitor, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"System", "", &g_page_system, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Debug", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
 };
 
 static const app_menu_item_t g_items_control[] = {
-  {"Enable", "", NULL, APP_MENU_ACTION_TOGGLE_RUN, APP_MENU_VALUE_RUN_STATE},
-  {"Mode", "", &g_page_mode, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
-  {"Limits", "", &g_page_limits, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
-  {"Assist", "Demo", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Enable", "", NULL, APP_MENU_ACTION_TOGGLE_RUN, APP_MENU_VALUE_RUN_STATE},
+    {"Mode", "", &g_page_mode, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Limits", "", &g_page_limits, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Assist", "Demo", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
 };
 
 static const app_menu_item_t g_items_monitor[] = {
-  {"Deg", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_MON_ANGLE},
-  {"Turn", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_MON_TURN},
-  {"Raw", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_MON_RAW},
-  {"Trace", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Mech", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_MON_MECH_ANGLE},
+    {"Elec", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_MON_ELEC_ANGLE},
+    {"Vbus", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_MON_VBUS},
+    {"Turn", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_MON_TURN},
+    {"Raw", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_MON_RAW},
 };
 
 static const app_menu_item_t g_items_system[] = {
-  {"Display", "", &g_page_display, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
-  {"Comm", "", &g_page_comm, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
-  {"Info", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Display", "", &g_page_display, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Comm", "", &g_page_comm, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Info", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
 };
 
 static const app_menu_item_t g_items_mode[] = {
-  {"Current", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
-  {"Speed", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
-  {"Position", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Current", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Speed", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Position", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
 };
 
 static const app_menu_item_t g_items_limits[] = {
-  {"I Max", "--", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
-  {"RPM Max", "--", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
-  {"Temp", "--", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"I Max", "--", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"RPM Max", "--", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Temp", "--", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
 };
 
 static const app_menu_item_t g_items_display[] = {
-  {"Theme", "Mono", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
-  {"Bright", "Mid", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
-  {"Layout", "Tree", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Theme", "Mono", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Bright", "Mid", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Layout", "Tree", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
 };
 
 static const app_menu_item_t g_items_comm[] = {
-  {"UART", "ON", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
-  {"Rate", "115K", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
-  {"Node", "01", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"UART", "ON", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Rate", "115K", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+    {"Node", "01", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
 };
 
 static const app_menu_page_t g_page_root = {"HOME",
@@ -155,7 +158,7 @@ static const char *appMenuResolveValue(const app_menu_item_t *item,
     }
     return "OFF";
 
-  case APP_MENU_VALUE_MON_ANGLE:
+  case APP_MENU_VALUE_MON_MECH_ANGLE:
     if ((runtime != NULL) && (runtime->encoder_ready != 0U)) {
       (void)snprintf(g_value_buffer[row_index],
                      sizeof(g_value_buffer[row_index]),
@@ -165,6 +168,28 @@ static const char *appMenuResolveValue(const app_menu_item_t *item,
       return g_value_buffer[row_index];
     }
     return "--.-";
+
+  case APP_MENU_VALUE_MON_ELEC_ANGLE:
+    if ((runtime != NULL) && (runtime->encoder_ready != 0U)) {
+      (void)snprintf(g_value_buffer[row_index],
+                     sizeof(g_value_buffer[row_index]),
+                     "%3u.%u",
+                     (unsigned)(runtime->electrical_angle_decideg / 10U),
+                     (unsigned)(runtime->electrical_angle_decideg % 10U));
+      return g_value_buffer[row_index];
+    }
+    return "--.-";
+
+  case APP_MENU_VALUE_MON_VBUS:
+    if (runtime != NULL) {
+      (void)snprintf(g_value_buffer[row_index],
+                     sizeof(g_value_buffer[row_index]),
+                     "%2u.%1uV",
+                     (unsigned)(runtime->bus_voltage_mv / 1000U),
+                     (unsigned)((runtime->bus_voltage_mv % 1000U) / 100U));
+      return g_value_buffer[row_index];
+    }
+    return "--.-V";
 
   case APP_MENU_VALUE_MON_TURN:
     if ((runtime != NULL) && (runtime->encoder_ready != 0U)) {
@@ -213,7 +238,9 @@ uint8_t appMenuNeedsPeriodicRefresh(void) {
 
   for (row = 0U; row < page->item_count; row++) {
     switch (page->items[row].value_id) {
-    case APP_MENU_VALUE_MON_ANGLE:
+    case APP_MENU_VALUE_MON_MECH_ANGLE:
+    case APP_MENU_VALUE_MON_ELEC_ANGLE:
+    case APP_MENU_VALUE_MON_VBUS:
     case APP_MENU_VALUE_MON_TURN:
     case APP_MENU_VALUE_MON_RAW:
       return 1U;
@@ -348,13 +375,13 @@ void appMenuEnter(void) {
   g_menu_state.depth++;
 }
 
-uint8_t appMenuActivate(const app_command_t *current_command,
-                        app_command_t *next_command) {
+app_menu_enter_result_t appMenuActivate(const app_command_t *current_command,
+                                        app_command_t *next_command) {
   const app_menu_item_t *item;
 
   item = appMenuGetSelectedItem();
   if ((item == NULL) || (current_command == NULL) || (next_command == NULL)) {
-    return 0U;
+    return APP_MENU_ENTER_RESULT_NONE;
   }
 
   *next_command = *current_command;
@@ -362,11 +389,11 @@ uint8_t appMenuActivate(const app_command_t *current_command,
   switch (item->action) {
   case APP_MENU_ACTION_TOGGLE_RUN:
     next_command->run_request = !current_command->run_request;
-    return 1U;
+    return APP_MENU_ENTER_RESULT_COMMAND_UPDATED;
 
   case APP_MENU_ACTION_NONE:
   default:
-    return 0U;
+    return APP_MENU_ENTER_RESULT_NONE;
   }
 }
 

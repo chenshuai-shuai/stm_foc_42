@@ -41,6 +41,7 @@
 ".\objects\algo_limit.o"
 ".\objects\algo_ramp.o"
 ".\objects\algo_observer.o"
+".\objects\algo_angle.o"
 ".\objects\hal_oled_if.o"
 ".\objects\hal_motor_if.o"
 ".\objects\hal_sense_if.o"

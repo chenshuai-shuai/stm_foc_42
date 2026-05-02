@@ -15,6 +15,7 @@ void appFastLoopInit(void) {
 }
 
 void appFastLoopStep(const app_command_t *command) {
+  algo_foc_diag_t foc_diag;
   app_runtime_fastloop_update_t runtime_update;
   app_fault_snapshot_t fault;
   motor_command_t motor_command;
@@ -40,9 +41,10 @@ void appFastLoopStep(const app_command_t *command) {
   motor_command.target_speed_rpm = command->target_speed_rpm;
 
   algoFocStep(&feedback, &motor_command, &output);
-  output.pwm_enable = (bool)(output.pwm_enable &&
-                             fault.gate_enabled &&
-                             halGateIsEnabled());
+  algoFocGetDiagnostics(&foc_diag);
+  output.enable = (bool)(output.enable &&
+                         fault.gate_enabled &&
+                         halGateIsEnabled());
   halMotorApplyOutput(&output);
 
   runtime_update.bus_voltage_mv = feedback.bus_voltage_mv;
@@ -53,6 +55,7 @@ void appFastLoopStep(const app_command_t *command) {
   runtime_update.target_current_ma = command->target_current_ma;
   runtime_update.target_speed_rpm = command->target_speed_rpm;
   runtime_update.mechanical_angle_decideg = feedback.mechanical_angle_decideg;
+  runtime_update.electrical_angle_decideg = foc_diag.electrical_angle_decideg;
   runtime_update.encoder_raw = feedback.encoder_raw;
   runtime_update.mechanical_turn_count = feedback.mechanical_turn_count;
   runtime_update.encoder_ready = feedback.encoder_ready ? 1U : 0U;

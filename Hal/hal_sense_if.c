@@ -26,7 +26,8 @@ void halSenseGetFeedbackSnapshot(motor_feedback_t *feedback) {
   feedback->phase_a_current_ma = raw.phase_a_current_ma;
   feedback->phase_b_current_ma = raw.phase_b_current_ma;
   feedback->bus_voltage_mv = raw.bus_voltage_mv;
-  feedback->electrical_angle_deg = (int16_t)(encoder.mechanical_angle_decideg / 10U);
+  feedback->electrical_angle_deg = 0;
+  feedback->electrical_angle_decideg = 0U;
   feedback->mechanical_speed_rpm = encoder.mechanical_speed_rpm;
   feedback->mechanical_angle_decideg = encoder.mechanical_angle_decideg;
   feedback->mechanical_turn_count = encoder.mechanical_turn_count;

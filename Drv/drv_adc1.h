@@ -7,8 +7,6 @@ typedef struct {
   int16_t phase_a_current_ma;
   int16_t phase_b_current_ma;
   uint16_t bus_voltage_mv;
-  int16_t electrical_angle_deg;
-  int16_t mechanical_speed_rpm;
 } drv_adc1_raw_t;
 
 void drvAdc1Init(void);

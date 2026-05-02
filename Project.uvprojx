@@ -843,6 +843,16 @@
                 <FileType>5</FileType>
                 <FilePath>.\Algo\algo_observer.h</FilePath>
               </File>
+              <File>
+                <FileName>algo_angle.c</FileName>
+                <FileType>1</FileType>
+                <FilePath>.\Algo\algo_angle.c</FilePath>
+              </File>
+              <File>
+                <FileName>algo_angle.h</FileName>
+                <FileType>5</FileType>
+                <FilePath>.\Algo\algo_angle.h</FilePath>
+              </File>
             </Files>
           </Group>
           <Group>

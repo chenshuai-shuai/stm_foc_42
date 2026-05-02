@@ -7,7 +7,8 @@
 typedef struct {
   uint16_t duty_a_permille;
   uint16_t duty_b_permille;
-  uint16_t duty_c_permille;
+  bool phase_a_forward;
+  bool phase_b_forward;
   bool enable;
 } drv_tim1_pwm_raw_t;
 

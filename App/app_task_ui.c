@@ -29,6 +29,7 @@ static THD_FUNCTION(UiThread, arg) {
   redraw_pending = 1U;
 
   while (true) {
+    app_menu_enter_result_t enter_result;
     hal_key_event_t key_event = halKeysPoll();
     appCommandGetSnapshot(&command_snapshot);
 
@@ -44,12 +45,17 @@ static THD_FUNCTION(UiThread, arg) {
       break;
 
     case HAL_KEY_EVENT_ENTER:
-      if (appMenuActivate(&command_snapshot.value, &next_command) != 0U) {
+      enter_result = appMenuActivate(&command_snapshot.value, &next_command);
+      if (enter_result == APP_MENU_ENTER_RESULT_COMMAND_UPDATED) {
         appCommandSubmitFromUi(&next_command);
         halUartWrite("[UI] command submit\r\n");
         redraw_pending = 1U;
+      } else if (enter_result == APP_MENU_ENTER_RESULT_LOCAL_ACTION) {
+        halUartWrite("[UI] local action\r\n");
+        redraw_pending = 1U;
       } else {
         appMenuEnter();
+        halUartWrite("[UI] menu enter\r\n");
         redraw_pending = 1U;
       }
       break;

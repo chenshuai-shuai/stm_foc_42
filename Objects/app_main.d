@@ -94,4 +94,5 @@
 .\objects\app_main.o: App\app_task_ui.h
 .\objects\app_main.o: .\Algo\algo_foc.h
 .\objects\app_main.o: .\Hal\hal_board.h
+.\objects\app_main.o: .\Hal\hal_keys_if.h
 .\objects\app_main.o: .\Hal\hal_uart_if.h

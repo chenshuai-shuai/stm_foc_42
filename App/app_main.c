@@ -9,14 +9,15 @@
 #include "app_task_ui.h"
 #include "algo_foc.h"
 #include "hal_board.h"
+#include "hal_keys_if.h"
 #include "hal_uart_if.h"
 
 static app_runtime_t g_app_runtime;
 static app_command_snapshot_t g_app_command = {
     {
-        true,
-        1200,
-        600,
+        false,
+        900,
+        20,
     },
     1U,
     APP_CMD_SRC_BOOT,
@@ -87,6 +88,7 @@ void appRuntimePublishFastLoop(const app_runtime_fastloop_update_t *update) {
   g_app_runtime.target_current_ma = update->target_current_ma;
   g_app_runtime.target_speed_rpm = update->target_speed_rpm;
   g_app_runtime.mechanical_angle_decideg = update->mechanical_angle_decideg;
+  g_app_runtime.electrical_angle_decideg = update->electrical_angle_decideg;
   g_app_runtime.encoder_raw = update->encoder_raw;
   g_app_runtime.mechanical_turn_count = update->mechanical_turn_count;
   g_app_runtime.encoder_ready = update->encoder_ready;

@@ -39,6 +39,7 @@ typedef struct {
   int16_t target_current_ma;
   int16_t target_speed_rpm;
   uint16_t mechanical_angle_decideg;
+  uint16_t electrical_angle_decideg;
   uint16_t encoder_raw;
   int32_t mechanical_turn_count;
   uint8_t encoder_ready;
@@ -56,6 +57,7 @@ struct app_runtime {
   int16_t target_current_ma;
   int16_t target_speed_rpm;
   uint16_t mechanical_angle_decideg;
+  uint16_t electrical_angle_decideg;
   uint16_t encoder_raw;
   int32_t mechanical_turn_count;
   uint8_t encoder_ready;

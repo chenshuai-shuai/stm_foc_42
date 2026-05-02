@@ -19,8 +19,9 @@ void halMotorApplyOutput(const motor_control_output_t *output) {
 
   raw.duty_a_permille = output->duty_a_permille;
   raw.duty_b_permille = output->duty_b_permille;
-  raw.duty_c_permille = output->duty_c_permille;
-  raw.enable = output->pwm_enable;
+  raw.phase_a_forward = output->phase_a_forward;
+  raw.phase_b_forward = output->phase_b_forward;
+  raw.enable = output->enable;
 
   drvTim1PwmApply(&raw);
 }
