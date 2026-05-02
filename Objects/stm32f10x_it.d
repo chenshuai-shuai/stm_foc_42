@@ -29,3 +29,5 @@
 .\objects\stm32f10x_it.o: .\Library\stm32f10x_usart.h
 .\objects\stm32f10x_it.o: .\Library\stm32f10x_wwdg.h
 .\objects\stm32f10x_it.o: .\Library\misc.h
+.\objects\stm32f10x_it.o: .\Drv\drv_usart1.h
+.\objects\stm32f10x_it.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stdbool.h

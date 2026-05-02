@@ -1,0 +1,10 @@
+.\objects\algo_foc.o: Algo\algo_foc.c
+.\objects\algo_foc.o: Algo\algo_foc.h
+.\objects\algo_foc.o: Algo\algo_motor_types.h
+.\objects\algo_foc.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\algo_foc.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\algo_foc.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\algo_foc.o: Algo\algo_limit.h
+.\objects\algo_foc.o: Algo\algo_observer.h
+.\objects\algo_foc.o: Algo\algo_pid.h
+.\objects\algo_foc.o: Algo\algo_ramp.h

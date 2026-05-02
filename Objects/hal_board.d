@@ -1,0 +1,12 @@
+.\objects\hal_board.o: Hal\hal_board.c
+.\objects\hal_board.o: Hal\hal_board.h
+.\objects\hal_board.o: .\Drv\drv_gpio.h
+.\objects\hal_board.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\hal_board.o: .\Drv\drv_irq.h
+.\objects\hal_board.o: Hal\hal_gate_if.h
+.\objects\hal_board.o: Hal\hal_keys_if.h
+.\objects\hal_board.o: Hal\hal_motor_if.h
+.\objects\hal_board.o: .\Algo\algo_motor_types.h
+.\objects\hal_board.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\hal_board.o: Hal\hal_sense_if.h
+.\objects\hal_board.o: Hal\hal_uart_if.h

@@ -96,10 +96,27 @@
             "includePath": [
                 "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\Start",
                 "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\User",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\App",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\Algo",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\Hal",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\Drv",
                 "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\Library",
                 "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\Hardware",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\ThirdParty\\u8g2\\csrc",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\ThirdParty\\ChibiOS\\os\\license",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\ThirdParty\\ChibiOS\\os\\common\\startup\\ARMCMx\\devices\\STM32F1xx",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\ThirdParty\\ChibiOS\\os\\common\\portability\\Keil",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\ThirdParty\\ChibiOS\\os\\common\\ports\\ARM-common\\include",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\ThirdParty\\ChibiOS\\os\\common\\ports\\ARMv7-M",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\ThirdParty\\ChibiOS\\os\\rt\\include",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\ThirdParty\\ChibiOS\\os\\oslib\\include",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\ThirdParty\\ChibiOS\\os\\hal\\ports\\common\\ARMCMx",
                 "E:\\keill5cs\\ARM\\ARMCC\\include",
-                "E:\\keill5cs\\ARM\\ARMCC\\include\\rw"
+                "E:\\keill5cs\\ARM\\ARMCC\\include\\rw",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\ThirdParty\\ChibiOS\\os\\common\\ports\\ARMv7-M\\compilers\\RVCT",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\ThirdParty\\ChibiOS\\os\\rt\\src",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\ThirdParty\\ChibiOS\\os\\oslib\\src",
+                "c:\\Users\\Administrator\\Desktop\\stm32_foc_42\\ThirdParty\\u8g2"
             ],
             "defines": [
                 "USE_STDPERIPH_DRIVER",

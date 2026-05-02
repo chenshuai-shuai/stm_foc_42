@@ -1,0 +1,13 @@
+.\objects\app_fastloop.o: App\app_fastloop.c
+.\objects\app_fastloop.o: App\app_fastloop.h
+.\objects\app_fastloop.o: App\app_types.h
+.\objects\app_fastloop.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\app_fastloop.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\app_fastloop.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\app_fastloop.o: App\app_fault_mgr.h
+.\objects\app_fastloop.o: .\Algo\algo_motor_types.h
+.\objects\app_fastloop.o: App\app_state_machine.h
+.\objects\app_fastloop.o: .\Algo\algo_foc.h
+.\objects\app_fastloop.o: .\Hal\hal_gate_if.h
+.\objects\app_fastloop.o: .\Hal\hal_motor_if.h
+.\objects\app_fastloop.o: .\Hal\hal_sense_if.h

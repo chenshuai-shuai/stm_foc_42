@@ -30,10 +30,21 @@
 ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
 
-Stack_Size      EQU     0x00000400
+Main_Stack_Size EQU     0x00000400
+Proc_Stack_Size EQU     0x00000400
 
-                AREA    STACK, NOINIT, READWRITE, ALIGN=3
-Stack_Mem       SPACE   Stack_Size
+                AREA    MSTACK, NOINIT, READWRITE, ALIGN=3
+Main_Stack_Mem  SPACE   Main_Stack_Size
+                EXPORT  __initial_msp
+__initial_msp
+
+                AREA    CSTACK, NOINIT, READWRITE, ALIGN=3
+                EXPORT  __main_thread_stack_base__
+                EXPORT  __main_thread_stack_end__
+__main_thread_stack_base__
+__main_thread_stack_end__
+Proc_Stack_Mem  SPACE   Proc_Stack_Size
+                EXPORT  __initial_sp
 __initial_sp
 
 
@@ -58,7 +69,7 @@ __heap_limit
                 EXPORT  __Vectors_End
                 EXPORT  __Vectors_Size
 
-__Vectors       DCD     __initial_sp               ; Top of Stack
+__Vectors       DCD     __initial_msp              ; Top of Stack
                 DCD     Reset_Handler              ; Reset Handler
                 DCD     NMI_Handler                ; NMI Handler
                 DCD     HardFault_Handler          ; Hard Fault Handler
@@ -130,6 +141,12 @@ Reset_Handler    PROC
                  EXPORT  Reset_Handler             [WEAK]
      IMPORT  __main
      IMPORT  SystemInit
+                 CPSID   I
+                 LDR     R0, =__initial_sp
+                 MSR     PSP, R0
+                 MOVS    R0, #2
+                 MSR     CONTROL, R0
+                 ISB
                  LDR     R0, =SystemInit
                  BLX     R0
                  LDR     R0, =__main
@@ -281,6 +298,7 @@ USBWakeUp_IRQHandler
 ;*******************************************************************************
                  IF      :DEF:__MICROLIB           
                 
+                 EXPORT  __initial_msp
                  EXPORT  __initial_sp
                  EXPORT  __heap_base
                  EXPORT  __heap_limit
@@ -293,9 +311,9 @@ USBWakeUp_IRQHandler
 __user_initial_stackheap
 
                  LDR     R0, =  Heap_Mem
-                 LDR     R1, =(Stack_Mem + Stack_Size)
+                 LDR     R1, =(Proc_Stack_Mem + Proc_Stack_Size)
                  LDR     R2, = (Heap_Mem +  Heap_Size)
-                 LDR     R3, = Stack_Mem
+                 LDR     R3, = Proc_Stack_Mem
                  BX      LR
 
                  ALIGN

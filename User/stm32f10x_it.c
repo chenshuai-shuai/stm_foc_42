@@ -23,6 +23,21 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
+#include "drv_usart1.h"
+
+static void faultLogAndHalt(const char *text)
+{
+  if (drvUsart1IsReady())
+  {
+    drvUsart1Write("\r\n[FAULT] ");
+    drvUsart1Write(text);
+    drvUsart1Write("\r\n");
+  }
+
+  while (1)
+  {
+  }
+}
 
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
@@ -55,10 +70,7 @@ void NMI_Handler(void)
   */
 void HardFault_Handler(void)
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+  faultLogAndHalt("HardFault");
 }
 
 /**
@@ -68,10 +80,7 @@ void HardFault_Handler(void)
   */
 void MemManage_Handler(void)
 {
-  /* Go to infinite loop when Memory Manage exception occurs */
-  while (1)
-  {
-  }
+  faultLogAndHalt("MemManage");
 }
 
 /**
@@ -81,10 +90,7 @@ void MemManage_Handler(void)
   */
 void BusFault_Handler(void)
 {
-  /* Go to infinite loop when Bus Fault exception occurs */
-  while (1)
-  {
-  }
+  faultLogAndHalt("BusFault");
 }
 
 /**
@@ -94,19 +100,7 @@ void BusFault_Handler(void)
   */
 void UsageFault_Handler(void)
 {
-  /* Go to infinite loop when Usage Fault exception occurs */
-  while (1)
-  {
-  }
-}
-
-/**
-  * @brief  This function handles SVCall exception.
-  * @param  None
-  * @retval None
-  */
-void SVC_Handler(void)
-{
+  faultLogAndHalt("UsageFault");
 }
 
 /**
@@ -115,24 +109,6 @@ void SVC_Handler(void)
   * @retval None
   */
 void DebugMon_Handler(void)
-{
-}
-
-/**
-  * @brief  This function handles PendSVC exception.
-  * @param  None
-  * @retval None
-  */
-void PendSV_Handler(void)
-{
-}
-
-/**
-  * @brief  This function handles SysTick Handler.
-  * @param  None
-  * @retval None
-  */
-void SysTick_Handler(void)
 {
 }
 
