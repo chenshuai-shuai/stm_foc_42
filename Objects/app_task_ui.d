@@ -84,9 +84,9 @@
 .\objects\app_task_ui.o: .\ThirdParty\ChibiOS\os\oslib\include\chfactory.h
 .\objects\app_task_ui.o: .\ThirdParty\ChibiOS\os\rt\include\chdynamic.h
 .\objects\app_task_ui.o: App\app_menu.h
+.\objects\app_task_ui.o: App\app_types.h
 .\objects\app_task_ui.o: .\Hal\hal_oled_if.h
 .\objects\app_task_ui.o: App\app_main.h
-.\objects\app_task_ui.o: App\app_types.h
 .\objects\app_task_ui.o: App\app_task_ui.h
 .\objects\app_task_ui.o: .\Hal\hal_keys_if.h
 .\objects\app_task_ui.o: .\Hal\hal_uart_if.h

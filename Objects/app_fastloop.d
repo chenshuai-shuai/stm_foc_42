@@ -6,6 +6,7 @@
 .\objects\app_fastloop.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\app_fastloop.o: App\app_fault_mgr.h
 .\objects\app_fastloop.o: .\Algo\algo_motor_types.h
+.\objects\app_fastloop.o: App\app_main.h
 .\objects\app_fastloop.o: App\app_state_machine.h
 .\objects\app_fastloop.o: .\Algo\algo_foc.h
 .\objects\app_fastloop.o: .\Hal\hal_gate_if.h

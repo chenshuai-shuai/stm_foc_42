@@ -25,11 +25,13 @@ void halUartPublishRuntime(const hal_uart_runtime_frame_t *frame) {
 
   (void)snprintf(tx_buffer,
                  sizeof(tx_buffer),
-                 "sec=%lu,state=%u,fault=0x%02lX,duty=%u\r\n",
+                 "sec=%lu,state=%u,fault=0x%02lX,duty=%u,cmd_rev=%lu,cmd_src=%u\r\n",
                  (unsigned long)frame->rtos_seconds,
                  (unsigned)frame->state,
                  (unsigned long)frame->fault_flags,
-                 (unsigned)frame->duty_a_permille);
+                 (unsigned)frame->duty_a_permille,
+                 (unsigned long)frame->command_revision,
+                 (unsigned)frame->command_source);
 
   drvUsart1Write(tx_buffer);
 }

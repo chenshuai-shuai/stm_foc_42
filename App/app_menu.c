@@ -1,13 +1,27 @@
 #include "app_menu.h"
 
 #include <stddef.h>
+#include <stdio.h>
 
 typedef struct app_menu_page app_menu_page_t;
+typedef enum {
+  APP_MENU_ACTION_NONE = 0,
+  APP_MENU_ACTION_TOGGLE_RUN
+} app_menu_action_t;
+typedef enum {
+  APP_MENU_VALUE_STATIC = 0,
+  APP_MENU_VALUE_RUN_STATE,
+  APP_MENU_VALUE_MON_ANGLE,
+  APP_MENU_VALUE_MON_TURN,
+  APP_MENU_VALUE_MON_RAW
+} app_menu_value_id_t;
 
 typedef struct {
   const char *label;
   const char *value;
   const app_menu_page_t *target;
+  app_menu_action_t action;
+  app_menu_value_id_t value_id;
 } app_menu_item_t;
 
 struct app_menu_page {
@@ -35,54 +49,54 @@ static const app_menu_page_t g_page_display;
 static const app_menu_page_t g_page_comm;
 
 static const app_menu_item_t g_items_root[] = {
-  {"Control", "", &g_page_control},
-  {"Monitor", "", &g_page_monitor},
-  {"System", "", &g_page_system},
-  {"Debug", "", NULL},
+  {"Control", "", &g_page_control, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+  {"Monitor", "", &g_page_monitor, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+  {"System", "", &g_page_system, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+  {"Debug", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
 };
 
 static const app_menu_item_t g_items_control[] = {
-  {"Enable", "OFF", NULL},
-  {"Mode", "", &g_page_mode},
-  {"Limits", "", &g_page_limits},
-  {"Assist", "Demo", NULL},
+  {"Enable", "", NULL, APP_MENU_ACTION_TOGGLE_RUN, APP_MENU_VALUE_RUN_STATE},
+  {"Mode", "", &g_page_mode, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+  {"Limits", "", &g_page_limits, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+  {"Assist", "Demo", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
 };
 
 static const app_menu_item_t g_items_monitor[] = {
-  {"Phase", "--", NULL},
-  {"Bus", "--", NULL},
-  {"Speed", "--", NULL},
-  {"Trace", "", NULL},
+  {"Deg", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_MON_ANGLE},
+  {"Turn", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_MON_TURN},
+  {"Raw", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_MON_RAW},
+  {"Trace", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
 };
 
 static const app_menu_item_t g_items_system[] = {
-  {"Display", "", &g_page_display},
-  {"Comm", "", &g_page_comm},
-  {"Info", "", NULL},
+  {"Display", "", &g_page_display, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+  {"Comm", "", &g_page_comm, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+  {"Info", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
 };
 
 static const app_menu_item_t g_items_mode[] = {
-  {"Current", "", NULL},
-  {"Speed", "", NULL},
-  {"Position", "", NULL},
+  {"Current", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+  {"Speed", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+  {"Position", "", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
 };
 
 static const app_menu_item_t g_items_limits[] = {
-  {"I Max", "--", NULL},
-  {"RPM Max", "--", NULL},
-  {"Temp", "--", NULL},
+  {"I Max", "--", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+  {"RPM Max", "--", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+  {"Temp", "--", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
 };
 
 static const app_menu_item_t g_items_display[] = {
-  {"Theme", "Mono", NULL},
-  {"Bright", "Mid", NULL},
-  {"Layout", "Tree", NULL},
+  {"Theme", "Mono", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+  {"Bright", "Mid", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+  {"Layout", "Tree", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
 };
 
 static const app_menu_item_t g_items_comm[] = {
-  {"UART", "ON", NULL},
-  {"Rate", "115K", NULL},
-  {"Node", "01", NULL},
+  {"UART", "ON", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+  {"Rate", "115K", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
+  {"Node", "01", NULL, APP_MENU_ACTION_NONE, APP_MENU_VALUE_STATIC},
 };
 
 static const app_menu_page_t g_page_root = {"HOME",
@@ -119,6 +133,100 @@ static const app_menu_page_t g_page_comm = {"COMM",
                                                       sizeof(g_items_comm[0]))};
 
 static app_menu_state_t g_menu_state;
+static char g_value_buffer[HAL_OLED_MENU_ROWS][12];
+
+static const char *appMenuResolveValue(const app_menu_item_t *item,
+                                       const app_command_snapshot_t *command_snapshot,
+                                       const app_runtime_t *runtime,
+                                       uint8_t row_index) {
+
+  if (item == NULL) {
+    return "";
+  }
+
+  if (row_index >= HAL_OLED_MENU_ROWS) {
+    return "";
+  }
+
+  switch (item->value_id) {
+  case APP_MENU_VALUE_RUN_STATE:
+    if ((command_snapshot != NULL) && command_snapshot->value.run_request) {
+      return "ON";
+    }
+    return "OFF";
+
+  case APP_MENU_VALUE_MON_ANGLE:
+    if ((runtime != NULL) && (runtime->encoder_ready != 0U)) {
+      (void)snprintf(g_value_buffer[row_index],
+                     sizeof(g_value_buffer[row_index]),
+                     "%3u.%u",
+                     (unsigned)(runtime->mechanical_angle_decideg / 10U),
+                     (unsigned)(runtime->mechanical_angle_decideg % 10U));
+      return g_value_buffer[row_index];
+    }
+    return "--.-";
+
+  case APP_MENU_VALUE_MON_TURN:
+    if ((runtime != NULL) && (runtime->encoder_ready != 0U)) {
+      (void)snprintf(g_value_buffer[row_index],
+                     sizeof(g_value_buffer[row_index]),
+                     "%ld",
+                     (long)runtime->mechanical_turn_count);
+      return g_value_buffer[row_index];
+    }
+    return "--";
+
+  case APP_MENU_VALUE_MON_RAW:
+    if ((runtime != NULL) && (runtime->encoder_ready != 0U)) {
+      (void)snprintf(g_value_buffer[row_index],
+                     sizeof(g_value_buffer[row_index]),
+                     "%05u",
+                     (unsigned)runtime->encoder_raw);
+      return g_value_buffer[row_index];
+    }
+    return "-----";
+
+  case APP_MENU_VALUE_STATIC:
+  default:
+    if (item->value != NULL) {
+      return item->value;
+    }
+
+    return "";
+  }
+}
+
+uint8_t appMenuNeedsPeriodicRefresh(void) {
+  uint8_t level;
+  const app_menu_page_t *page;
+  uint8_t row;
+
+  if (g_menu_state.depth == 0U) {
+    return 0U;
+  }
+
+  level = (uint8_t)(g_menu_state.depth - 1U);
+  page = g_menu_state.stack[level];
+  if (page == NULL) {
+    return 0U;
+  }
+
+  for (row = 0U; row < page->item_count; row++) {
+    switch (page->items[row].value_id) {
+    case APP_MENU_VALUE_MON_ANGLE:
+    case APP_MENU_VALUE_MON_TURN:
+    case APP_MENU_VALUE_MON_RAW:
+      return 1U;
+
+    case APP_MENU_VALUE_STATIC:
+    case APP_MENU_VALUE_RUN_STATE:
+    default:
+      break;
+    }
+  }
+
+  return 0U;
+}
 
 static void appMenuSyncWindow(void) {
   uint8_t level;
@@ -240,6 +348,28 @@ void appMenuEnter(void) {
   g_menu_state.depth++;
 }
 
+uint8_t appMenuActivate(const app_command_t *current_command,
+                        app_command_t *next_command) {
+  const app_menu_item_t *item;
+
+  item = appMenuGetSelectedItem();
+  if ((item == NULL) || (current_command == NULL) || (next_command == NULL)) {
+    return 0U;
+  }
+
+  *next_command = *current_command;
+
+  switch (item->action) {
+  case APP_MENU_ACTION_TOGGLE_RUN:
+    next_command->run_request = !current_command->run_request;
+    return 1U;
+
+  case APP_MENU_ACTION_NONE:
+  default:
+    return 0U;
+  }
+}
+
 void appMenuBack(void) {
 
   if (g_menu_state.depth > 1U) {
@@ -264,7 +394,9 @@ void appMenuDemoStep(void) {
   appMenuMoveNext();
 }
 
-void appMenuBuildView(hal_oled_menu_view_t *view) {
+void appMenuBuildView(const app_command_snapshot_t *command_snapshot,
+                      const app_runtime_t *runtime,
+                      hal_oled_menu_view_t *view) {
   uint8_t level;
   const app_menu_page_t *page;
   uint8_t row;
@@ -298,7 +430,8 @@ void appMenuBuildView(hal_oled_menu_view_t *view) {
       const app_menu_item_t *item = &page->items[item_index];
 
       view->rows[row].label = item->label;
-      view->rows[row].value = item->value;
+      view->rows[row].value =
+          appMenuResolveValue(item, command_snapshot, runtime, row);
       view->rows[row].kind = item->target != NULL ? HAL_OLED_MENU_ROW_SUBMENU
                                                   : HAL_OLED_MENU_ROW_VALUE;
     }

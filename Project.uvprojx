@@ -918,6 +918,16 @@
                 <FileType>5</FileType>
                 <FilePath>.\Hal\hal_keys_if.h</FilePath>
               </File>
+              <File>
+                <FileName>hal_encoder_if.c</FileName>
+                <FileType>1</FileType>
+                <FilePath>.\Hal\hal_encoder_if.c</FilePath>
+              </File>
+              <File>
+                <FileName>hal_encoder_if.h</FileName>
+                <FileType>5</FileType>
+                <FilePath>.\Hal\hal_encoder_if.h</FilePath>
+              </File>
             </Files>
           </Group>
           <Group>
@@ -1007,6 +1017,16 @@
                 <FileName>drv_oled_u8g2_display.h</FileName>
                 <FileType>5</FileType>
                 <FilePath>.\Drv\drv_oled_u8g2_display.h</FilePath>
+              </File>
+              <File>
+                <FileName>drv_mt6816.c</FileName>
+                <FileType>1</FileType>
+                <FilePath>.\Drv\drv_mt6816.c</FilePath>
+              </File>
+              <File>
+                <FileName>drv_mt6816.h</FileName>
+                <FileType>5</FileType>
+                <FilePath>.\Drv\drv_mt6816.h</FilePath>
               </File>
             </Files>
           </Group>

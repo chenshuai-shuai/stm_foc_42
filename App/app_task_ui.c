@@ -12,6 +12,10 @@ static THD_WORKING_AREA(waUiThread, 1024);
 static THD_FUNCTION(UiThread, arg) {
 
   hal_oled_menu_view_t view;
+  app_command_snapshot_t command_snapshot;
+  app_runtime_t runtime_snapshot;
+  app_command_t next_command;
+  systime_t last_refresh_tick;
   uint8_t redraw_pending;
 
   (void)arg;
@@ -21,10 +25,12 @@ static THD_FUNCTION(UiThread, arg) {
   halOledInit();
   appMenuInit();
   halUartWrite("[UI] display ready\r\n");
+  last_refresh_tick = chVTGetSystemTimeX();
   redraw_pending = 1U;
 
   while (true) {
     hal_key_event_t key_event = halKeysPoll();
+    appCommandGetSnapshot(&command_snapshot);
 
     switch (key_event) {
     case HAL_KEY_EVENT_PREV:
@@ -38,8 +44,14 @@ static THD_FUNCTION(UiThread, arg) {
       break;
 
     case HAL_KEY_EVENT_ENTER:
-      appMenuEnter();
-      redraw_pending = 1U;
+      if (appMenuActivate(&command_snapshot.value, &next_command) != 0U) {
+        appCommandSubmitFromUi(&next_command);
+        halUartWrite("[UI] command submit\r\n");
+        redraw_pending = 1U;
+      } else {
+        appMenuEnter();
+        redraw_pending = 1U;
+      }
       break;
 
     case HAL_KEY_EVENT_BACK:
@@ -52,13 +64,22 @@ static THD_FUNCTION(UiThread, arg) {
       break;
     }
 
+    if ((redraw_pending == 0U) && (appMenuNeedsPeriodicRefresh() != 0U)) {
+      if (chVTTimeElapsedSinceX(last_refresh_tick) >= TIME_MS2I(33)) {
+        redraw_pending = 1U;
+      }
+    }
+
     if (redraw_pending != 0U) {
-      appMenuBuildView(&view);
+      appCommandGetSnapshot(&command_snapshot);
+      appRuntimeGetSnapshot(&runtime_snapshot);
+      appMenuBuildView(&command_snapshot, &runtime_snapshot, &view);
       halOledShowMenu(&view);
+      last_refresh_tick = chVTGetSystemTimeX();
       redraw_pending = 0U;
     }
 
-    chThdSleepMilliseconds(20);
+    chThdSleepMilliseconds(5);
   }
 }
 

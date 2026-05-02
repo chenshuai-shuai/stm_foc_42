@@ -10,6 +10,7 @@ typedef enum {
 } hal_key_event_t;
 
 void halKeysInit(void);
+void halKeysStart(void);
 hal_key_event_t halKeysPoll(void);
 
 #endif /* HAL_KEYS_IF_H */

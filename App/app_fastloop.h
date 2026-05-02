@@ -4,6 +4,6 @@
 #include "app_types.h"
 
 void appFastLoopInit(void);
-void appFastLoopStep(const app_command_t *command, app_runtime_t *runtime);
+void appFastLoopStep(const app_command_t *command);
 
 #endif /* APP_FASTLOOP_H */

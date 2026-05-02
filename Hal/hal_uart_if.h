@@ -6,8 +6,10 @@
 typedef struct {
   uint32_t rtos_seconds;
   uint32_t fault_flags;
+  uint32_t command_revision;
   uint16_t duty_a_permille;
   uint8_t state;
+  uint8_t command_source;
 } hal_uart_runtime_frame_t;
 
 void halUartInit(void);

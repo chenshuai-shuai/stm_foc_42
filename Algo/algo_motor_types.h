@@ -10,6 +10,10 @@ typedef struct {
   uint16_t bus_voltage_mv;
   int16_t electrical_angle_deg;
   int16_t mechanical_speed_rpm;
+  uint16_t mechanical_angle_decideg;
+  int32_t mechanical_turn_count;
+  uint16_t encoder_raw;
+  bool encoder_ready;
 } motor_feedback_t;
 
 typedef struct {

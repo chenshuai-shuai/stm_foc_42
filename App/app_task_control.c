@@ -8,23 +8,17 @@
 static THD_WORKING_AREA(waControlThread, 512);
 
 static THD_FUNCTION(ControlThread, arg) {
-
-  static const app_command_t command = {
-    true,
-    1200,
-    600,
-  };
-  app_runtime_t *runtime;
+  app_command_snapshot_t command_snapshot;
 
   (void)arg;
-  runtime = (app_runtime_t *)appGetRuntime();
   chRegSetThreadName("ctrl");
   halUartWrite("[CTRL] thread entered\r\n");
 
   while (true) {
-    appFastLoopStep(&command, runtime);
-    chThdSleepMilliseconds(100);
-    runtime->control_ticks++;
+    appCommandGetSnapshot(&command_snapshot);
+    appFastLoopStep(&command_snapshot.value);
+    chThdSleepMilliseconds(10);
+    appRuntimeIncrementControlTicks();
   }
 }
 

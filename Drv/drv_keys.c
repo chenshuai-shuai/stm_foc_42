@@ -3,8 +3,8 @@
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_rcc.h"
 
-#define DRV_KEYS_DEBOUNCE_TICKS 2U
-#define DRV_KEYS_LONGPRESS_TICKS 30U
+#define DRV_KEYS_DEBOUNCE_TICKS 5U
+#define DRV_KEYS_LONGPRESS_TICKS 600U
 
 typedef struct {
   GPIO_TypeDef *port;
@@ -14,7 +14,7 @@ typedef struct {
 typedef struct {
   uint8_t stable_pressed;
   uint8_t debounce_ticks;
-  uint8_t press_ticks;
+  uint16_t press_ticks;
   uint8_t long_reported;
   drv_key_state_t state;
 } drv_key_runtime_t;
@@ -83,7 +83,7 @@ void drvKeysScan(void) {
     }
 
     if (runtime->stable_pressed != 0U) {
-      if (runtime->press_ticks < 0xFFU) {
+      if (runtime->press_ticks < 0xFFFFU) {
         runtime->press_ticks++;
       }
 
