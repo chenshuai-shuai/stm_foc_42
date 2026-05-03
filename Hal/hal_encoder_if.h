@@ -14,5 +14,6 @@ typedef struct {
 
 void halEncoderInit(void);
 void halEncoderGetSample(hal_encoder_sample_t *sample);
+void halEncoderResetTracking(void);
 
 #endif /* HAL_ENCODER_IF_H */

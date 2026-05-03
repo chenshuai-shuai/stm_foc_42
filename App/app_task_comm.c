@@ -18,8 +18,16 @@ static THD_FUNCTION(CommThread, arg) {
     appRuntimeGetSnapshot(&runtime);
     frame.rtos_seconds = runtime.rtos_seconds;
     frame.state = runtime.state;
+    frame.control_mode = runtime.control_mode;
     frame.fault_flags = runtime.fault_flags;
     frame.duty_a_permille = runtime.duty_a_permille;
+    frame.target_current_ma = runtime.target_current_ma;
+    frame.hold_current_ma = runtime.hold_current_ma;
+    frame.target_speed_rpm = runtime.target_speed_rpm;
+    frame.measured_speed_rpm = runtime.measured_speed_rpm;
+    frame.filtered_speed_rpm = runtime.filtered_speed_rpm;
+    frame.speed_current_ref_ma = runtime.speed_current_ref_ma;
+    frame.target_position_total_decideg = runtime.target_position_total_decideg;
     frame.command_revision = runtime.command_revision;
     frame.command_source = (uint8_t)runtime.command_source;
 

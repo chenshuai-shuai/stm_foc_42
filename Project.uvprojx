@@ -744,6 +744,16 @@
                 <FilePath>.\App\app_task_ui.h</FilePath>
               </File>
               <File>
+                <FileName>app_task_calib.c</FileName>
+                <FileType>1</FileType>
+                <FilePath>.\App\app_task_calib.c</FilePath>
+              </File>
+              <File>
+                <FileName>app_task_calib.h</FileName>
+                <FileType>5</FileType>
+                <FilePath>.\App\app_task_calib.h</FilePath>
+              </File>
+              <File>
                 <FileName>app_menu.c</FileName>
                 <FileType>1</FileType>
                 <FilePath>.\App\app_menu.c</FilePath>
@@ -782,6 +792,16 @@
                 <FileName>app_fault_mgr.h</FileName>
                 <FileType>5</FileType>
                 <FilePath>.\App\app_fault_mgr.h</FilePath>
+              </File>
+              <File>
+                <FileName>app_calib.c</FileName>
+                <FileType>1</FileType>
+                <FilePath>.\App\app_calib.c</FilePath>
+              </File>
+              <File>
+                <FileName>app_calib.h</FileName>
+                <FileType>5</FileType>
+                <FilePath>.\App\app_calib.h</FilePath>
               </File>
             </Files>
           </Group>
@@ -1037,6 +1057,16 @@
                 <FileName>drv_mt6816.h</FileName>
                 <FileType>5</FileType>
                 <FilePath>.\Drv\drv_mt6816.h</FilePath>
+              </File>
+              <File>
+                <FileName>drv_flash_cfg.c</FileName>
+                <FileType>1</FileType>
+                <FilePath>.\Drv\drv_flash_cfg.c</FilePath>
+              </File>
+              <File>
+                <FileName>drv_flash_cfg.h</FileName>
+                <FileType>5</FileType>
+                <FilePath>.\Drv\drv_flash_cfg.h</FilePath>
               </File>
             </Files>
           </Group>

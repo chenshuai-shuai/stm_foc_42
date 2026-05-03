@@ -3,6 +3,7 @@
 .\objects\hal_encoder_if.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\hal_encoder_if.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\hal_encoder_if.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\hal_encoder_if.o: .\Algo\algo_angle.h
 .\objects\hal_encoder_if.o: .\Drv\drv_mt6816.h
 .\objects\hal_encoder_if.o: .\Start\stm32f10x.h
 .\objects\hal_encoder_if.o: .\Start\core_cm3.h

@@ -1,5 +1,6 @@
 #include "ch.h"
 
+#include "app_calib.h"
 #include "app_menu.h"
 #include "app_main.h"
 #include "app_task_ui.h"
@@ -45,7 +46,9 @@ static THD_FUNCTION(UiThread, arg) {
       break;
 
     case HAL_KEY_EVENT_ENTER:
-      enter_result = appMenuActivate(&command_snapshot.value, &next_command);
+      appRuntimeGetSnapshot(&runtime_snapshot);
+      enter_result =
+          appMenuActivate(&command_snapshot.value, &runtime_snapshot, &next_command);
       if (enter_result == APP_MENU_ENTER_RESULT_COMMAND_UPDATED) {
         appCommandSubmitFromUi(&next_command);
         halUartWrite("[UI] command submit\r\n");

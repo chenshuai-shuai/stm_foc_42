@@ -6,3 +6,5 @@
 .\objects\app_menu.o: .\Hal\hal_oled_if.h
 .\objects\app_menu.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\app_menu.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\app_menu.o: App\app_calib.h
+.\objects\app_menu.o: .\Algo\algo_motor_types.h

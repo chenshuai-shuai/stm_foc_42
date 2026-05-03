@@ -1,10 +1,12 @@
 #include "ch.h"
 
 #include "app_fastloop.h"
+#include "app_calib.h"
 #include "app_main.h"
 #include "app_fault_mgr.h"
 #include "app_state_machine.h"
 #include "app_task_comm.h"
+#include "app_task_calib.h"
 #include "app_task_control.h"
 #include "app_task_ui.h"
 #include "algo_foc.h"
@@ -16,8 +18,13 @@ static app_runtime_t g_app_runtime;
 static app_command_snapshot_t g_app_command = {
     {
         false,
+        false,
+        false,
+        APP_CONTROL_MODE_SPEED,
         900,
-        20,
+        350,
+        6,
+        0,
     },
     1U,
     APP_CMD_SRC_BOOT,
@@ -34,8 +41,12 @@ static void appCommandSubmitInternal(app_command_source_t source,
   g_app_command.value = *command;
   g_app_command.source = source;
   g_app_command.revision++;
+  g_app_runtime.control_mode = (uint8_t)command->control_mode;
   g_app_runtime.target_current_ma = command->target_current_ma;
+  g_app_runtime.hold_current_ma = command->hold_current_ma;
   g_app_runtime.target_speed_rpm = command->target_speed_rpm;
+  g_app_runtime.target_position_total_decideg =
+      command->target_position_total_decideg;
   g_app_runtime.command_revision = g_app_command.revision;
   g_app_runtime.command_source = g_app_command.source;
   chSysUnlock();
@@ -85,13 +96,20 @@ void appRuntimePublishFastLoop(const app_runtime_fastloop_update_t *update) {
   g_app_runtime.duty_a_permille = update->duty_a_permille;
   g_app_runtime.fault_flags = update->fault_flags;
   g_app_runtime.state = update->state;
+  g_app_runtime.control_mode = update->control_mode;
   g_app_runtime.target_current_ma = update->target_current_ma;
+  g_app_runtime.hold_current_ma = update->hold_current_ma;
   g_app_runtime.target_speed_rpm = update->target_speed_rpm;
+  g_app_runtime.target_position_total_decideg =
+      update->target_position_total_decideg;
   g_app_runtime.mechanical_angle_decideg = update->mechanical_angle_decideg;
   g_app_runtime.electrical_angle_decideg = update->electrical_angle_decideg;
   g_app_runtime.encoder_raw = update->encoder_raw;
   g_app_runtime.mechanical_turn_count = update->mechanical_turn_count;
   g_app_runtime.encoder_ready = update->encoder_ready;
+  g_app_runtime.measured_speed_rpm = update->measured_speed_rpm;
+  g_app_runtime.filtered_speed_rpm = update->filtered_speed_rpm;
+  g_app_runtime.speed_current_ref_ma = update->speed_current_ref_ma;
   g_app_runtime.command_revision = g_app_command.revision;
   g_app_runtime.command_source = g_app_command.source;
   chSysUnlock();
@@ -153,6 +171,8 @@ void appInit(void) {
   halUartWrite("[BOOT] board init ok\r\n");
   algoFocInit();
   halUartWrite("[BOOT] algo init ok\r\n");
+  appCalibInit();
+  halUartWrite("[BOOT] calib init ok\r\n");
   appFastLoopInit();
   halUartWrite("[BOOT] fastloop init ok\r\n");
   chSysInit();
@@ -162,6 +182,10 @@ void appInit(void) {
 
   appTaskControlStart();
   halUartWrite("[BOOT] control thread start requested\r\n");
+  appTaskCommStart();
+  halUartWrite("[BOOT] comm thread start requested\r\n");
+  appTaskCalibStart();
+  halUartWrite("[BOOT] calib thread start requested\r\n");
   appTaskUiStart();
   halUartWrite("[BOOT] ui thread start requested\r\n");
 

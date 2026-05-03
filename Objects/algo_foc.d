@@ -7,4 +7,5 @@
 .\objects\algo_foc.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\algo_foc.o: Algo\algo_angle.h
 .\objects\algo_foc.o: Algo\algo_limit.h
+.\objects\algo_foc.o: Algo\algo_pid.h
 .\objects\algo_foc.o: Algo\algo_ramp.h

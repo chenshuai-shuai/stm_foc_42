@@ -86,3 +86,4 @@
 .\objects\main.o: .\App\app_main.h
 .\objects\main.o: .\App\app_types.h
 .\objects\main.o: .\Hal\hal_uart_if.h
+.\objects\main.o: E:\keill5cs\ARM\ARMCC\Bin\..\include\stdio.h

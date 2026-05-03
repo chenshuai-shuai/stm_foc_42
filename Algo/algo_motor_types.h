@@ -17,10 +17,22 @@ typedef struct {
   bool encoder_ready;
 } motor_feedback_t;
 
+typedef enum {
+  MOTOR_CONTROL_MODE_OPEN_LOOP = 0,
+  MOTOR_CONTROL_MODE_CURRENT_TEST,
+  MOTOR_CONTROL_MODE_HOME_HOLD,
+  MOTOR_CONTROL_MODE_SPEED,
+  MOTOR_CONTROL_MODE_POSITION
+} motor_control_mode_t;
+
 typedef struct {
   bool run;
+  bool auto_stop_on_target;
+  motor_control_mode_t mode;
   int16_t target_current_ma;
+  int16_t hold_current_ma;
   int16_t target_speed_rpm;
+  int32_t target_position_total_decideg;
 } motor_command_t;
 
 typedef struct {
@@ -36,6 +48,11 @@ typedef struct {
   uint8_t pole_pairs;
   uint16_t encoder_zero_raw;
   int8_t encoder_direction;
+  int8_t phase_order_sign;
+  int16_t speed_target_rpm;
+  int16_t speed_measured_rpm;
+  int16_t speed_filtered_rpm;
+  int16_t speed_current_ref_ma;
 } algo_foc_diag_t;
 
 #endif /* ALGO_MOTOR_TYPES_H */

@@ -85,11 +85,13 @@
 .\objects\app_main.o: .\ThirdParty\ChibiOS\os\rt\include\chdynamic.h
 .\objects\app_main.o: App\app_fastloop.h
 .\objects\app_main.o: App\app_types.h
+.\objects\app_main.o: App\app_calib.h
+.\objects\app_main.o: .\Algo\algo_motor_types.h
 .\objects\app_main.o: App\app_main.h
 .\objects\app_main.o: App\app_fault_mgr.h
-.\objects\app_main.o: .\Algo\algo_motor_types.h
 .\objects\app_main.o: App\app_state_machine.h
 .\objects\app_main.o: App\app_task_comm.h
+.\objects\app_main.o: App\app_task_calib.h
 .\objects\app_main.o: App\app_task_control.h
 .\objects\app_main.o: App\app_task_ui.h
 .\objects\app_main.o: .\Algo\algo_foc.h

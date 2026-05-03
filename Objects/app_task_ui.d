@@ -83,6 +83,8 @@
 .\objects\app_task_ui.o: .\ThirdParty\ChibiOS\os\oslib\include\chjobs.h
 .\objects\app_task_ui.o: .\ThirdParty\ChibiOS\os\oslib\include\chfactory.h
 .\objects\app_task_ui.o: .\ThirdParty\ChibiOS\os\rt\include\chdynamic.h
+.\objects\app_task_ui.o: App\app_calib.h
+.\objects\app_task_ui.o: .\Algo\algo_motor_types.h
 .\objects\app_task_ui.o: App\app_menu.h
 .\objects\app_task_ui.o: App\app_types.h
 .\objects\app_task_ui.o: .\Hal\hal_oled_if.h
